@@ -1,0 +1,58 @@
+Some extended commentary on the code design.
+
+The main class is Scheduler. A instance of this is gained by a singleton call - there
+should only ever be one Scheduler. add() allows messages to be added for processing. 
+cancel() cancels all the unprocessed messages in a group and locks the group against further 
+messages being delivered. terminate() shuts the scheduler down by interrupting all the worker threads,
+a bit brutal and a more gentle approach might be to set a flag that they close down 
+once the message they are currently processing is done. However you might wait a long time 
+for this to happen.
+ 
+The core of the design is a PriorityBlockingQueue, which provided elements are
+Comparable will deliver them in the order as specified in the spec. This ordering is
+implemented in the DefaultQueueElement class. A sequence number is used, and is a real
+number. The first message in a group is assigned a new integer sequence 1,2,3 and so on, 
+but subsequent messages in a group acquire a sequence number just after the first in the group -
+1.0000000001, 1.0000000002 etc. The ordering algorithm will break if you get more than 
+10 to the power 9 messages in a group - hopefully this is unlikely given the large
+processing time we are told of for each message. The slight increase in processing 
+time in using real arithmetic is probably not significant given these circumstances. 
+
+An alternative ordering strategy is possible by creating a different implementation
+of the QueueElement and QueueElementFactory classes, and passing to the singleton 
+instantiation of Scheduler. An easier method is to inherit from AbstractQueueElement,
+implementing the compareTo() method, and using the templated GenericQueueElementFactory
+with the syntax described in its header.  
+ 
+The Scheduler starts a number of internal worker threads to match the number of resources. These
+read a message element from the queue and calls send() on it, blocking if no message is
+available. By this means there can never be more calls to send() active than there are resources. 
+The combination of worker threads and the blocking queue means there is no need to manage
+the states of the threads between available and working - they take any waiting message as soon 
+as they are free.
+
+It is assumed that the Gateway Interface can be called by multiple threads in parallel,
+and that the calls to send() are synchronous i.e. they return once the processing is done
+at which point the completed() method on the message is called. It was not clear if there
+should be one Gateway for all resources, or one per resource, and so a GatewayFactory
+interface is provided, allowing either possibility as the client chooses
+A GenericGatewayFactory is not provided but could easily be using the same methodology
+as GenericQueueElementFactory.
+
+The multi-threaded design does mean that although messages are certainly taken from the queue
+in the order specified, it could be they complete processing in a different order due to 
+one thread running faster than another - this can be observed in the test application
+where three messages can be taken from the queue almost instantaneously and the processing
+takes a nominally fixed time. 
+
+One concern of the design is that there is no real cleanup of the resources it uses, in 
+particular the groupSequences in DefaultQueueElement and lockedGroups in Scheduler will
+continue to grow as more and more message groups are handled. Once more is understood
+about how the component will be used in practice, this could be revisited.
+
+Logging (where provided) used java.util.logging as this meant no additional jar files
+had to be pulled in, and would doubtless be replaced with whatever logging flavour
+is in use for the project.
+
+The code requires Java 1.7 to run, and a maven pom.xml file is provided to build a jar.
+However I ran all tests from within Eclipse. 

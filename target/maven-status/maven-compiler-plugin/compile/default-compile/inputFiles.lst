@@ -1,0 +1,12 @@
+C:\src\Scheduler\src\main\java\sample\interfaces\Gateway.java
+C:\src\Scheduler\src\main\java\sample\interfaces\GatewayFactory.java
+C:\src\Scheduler\src\main\java\sample\AbstractQueueElement.java
+C:\src\Scheduler\src\main\java\sample\Scheduler.java
+C:\src\Scheduler\src\main\java\sample\DefaultQueueElementSequenceGenerator.java
+C:\src\Scheduler\src\main\java\sample\interfaces\QueueElement.java
+C:\src\Scheduler\src\main\java\sample\DefaultQueueElementFactory.java
+C:\src\Scheduler\src\main\java\sample\DefaultQueueElement.java
+C:\src\Scheduler\src\main\java\sample\AlternateQueueElement.java
+C:\src\Scheduler\src\main\java\sample\interfaces\QueueElementFactory.java
+C:\src\Scheduler\src\main\java\sample\interfaces\Message.java
+C:\src\Scheduler\src\main\java\sample\GenericQueueElementFactory.java
