@@ -59,4 +59,5 @@ can be found in target/site/cobertura. The tests are somewhat performance depend
 which is not ideal.  
 
 The code requires Java 1.7 to run, and a maven pom.xml file is provided to build a jar.
-However I ran all tests from within Eclipse. 
+I ran the JUnit tests from within Eclipse as well as with "mvn test". The Cobertura
+code coverage was run using "mvn cobertura:cobertura" 
