@@ -54,5 +54,7 @@ Logging (where provided) used java.util.logging as this meant no additional jar 
 had to be pulled in, and would doubtless be replaced with whatever logging flavour
 is in use for the project.
 
+Three Junit tests are provided, and code coverage results for these using Cobertura can be found in target/site/cobertura  
+
 The code requires Java 1.7 to run, and a maven pom.xml file is provided to build a jar.
 However I ran all tests from within Eclipse. 
