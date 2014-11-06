@@ -16,18 +16,9 @@ public class DefaultQueueElementFactory implements QueueElementFactory
 	@Override
 	public QueueElement getQueueElement(Message msg) 
 	{
-		try
-		{
-			DefaultQueueElement element = new DefaultQueueElement(seqGenerator);
-			element.setMsg(msg);
-			
-			return element;
-		}
-		catch (Exception e)
-		{
-			log.severe("Threw exception " + e.getStackTrace());
-		}
+		DefaultQueueElement element = new DefaultQueueElement(seqGenerator);
+		element.setMsg(msg);
 		
-		return null;
+		return element;
 	}
 }

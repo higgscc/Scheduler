@@ -55,7 +55,10 @@ public class Scheduler
 			return false;
 		}
 		
-		queue.add(queueElementFactory.getQueueElement(msg));
+		QueueElement element = queueElementFactory.getQueueElement(msg);
+		
+		if (element != null)
+			queue.add(element);
 		
 		if (msg.isLastInGroup())
 		{
