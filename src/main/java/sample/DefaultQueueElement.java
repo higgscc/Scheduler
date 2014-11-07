@@ -21,6 +21,10 @@ public class DefaultQueueElement extends AbstractQueueElement
 	
 	private Double sequence;
 	
+	// constructor is the default (pacakge) scope as it should be called from
+	// DefaultQueueElementFactory but nowhere else. Making this an inner class of
+	// the factory would be another approach to this
+	
 	DefaultQueueElement (DefaultQueueElementSequenceGenerator seqGenerator)
 	{
 		this.seqGenerator = seqGenerator;
