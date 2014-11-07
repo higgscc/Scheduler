@@ -26,15 +26,12 @@ public class Scheduler
 	 * Get the singleton instance of the Scheduler supplying an explicit QueueElementFactory
 	 * to generate elements (and hence order messages for processing)
 	 */
-	public static Scheduler instance(int numResources, GatewayFactory gatewayFactory,
+	public static synchronized Scheduler instance(int numResources, GatewayFactory gatewayFactory,
 			QueueElementFactory queueElementFactory)
 	{
-		synchronized(instance)
+		if (instance == null)
 		{
-			if (instance == null)
-			{
-				instance = new Scheduler(numResources, gatewayFactory, queueElementFactory);
-			}
+			instance = new Scheduler(numResources, gatewayFactory, queueElementFactory);
 		}
 		
 		return instance;
