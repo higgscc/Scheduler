@@ -87,15 +87,18 @@ public class Scheduler
 		}		
 	}
 	
-	/**
-	 * Shut down the whole scheduler
-	 */
 	
+	/**
+	 * Determine whether the scheduler is still available
+	 */
 	public boolean isTerminated()
 	{
 		return terminateFlag;
 	}
 	
+	/**
+	 * Shut down the whole scheduler
+	 */
 	public synchronized void terminate()
 	{
 		if (isTerminated()) return;
